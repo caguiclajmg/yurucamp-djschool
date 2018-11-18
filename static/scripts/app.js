@@ -1,4 +1,3 @@
-var container = document.getElementById('div-main');
 var image = document.getElementById('img-main');
 var music = document.getElementById('audio-music');
 
@@ -32,6 +31,7 @@ function loadAnimationSets() {
 
 function tick() {
     if(!run) return;
+    if(music.paused) music.play();
 
     if(++currentFrame >= animations[currentAnimation].length) {
         switch(currentAnimation) {
@@ -103,30 +103,15 @@ function absorbEvent(e) {
 
 image.addEventListener('contextmenu', absorbEvent);
 
-image.addEventListener('touchstart', function(e) {
-    if(!run) {
-        run = true;
-        music.play();
-        return;
-    }
+image.addEventListener('click', function(e) { if(!run) run = true; });
 
+image.addEventListener('touchstart', function(e) {
     actionDown(Point(e.changedTouches[0].pageX, e.changedTouches[0].pageY));
-    absorbEvent(e);
 });
 
 image.addEventListener('touchend', function(e) {
     actionUp(Point(e.changedTouches[0].pageX, e.changedTouches[0].pageY));
-    absorbEvent(e);
 });
 
-image.addEventListener('mousedown', function(e) {
-    if(!run) {
-        run = true;
-        music.play();
-        return;
-    }
-
-    actionDown(Point(e.offsetX, e.offsetY));
-});
-
+image.addEventListener('mousedown', function(e) { actionDown(Point(e.offsetX, e.offsetY)); });
 image.addEventListener('mouseup', function(e) { actionUp(Point(e.offsetX, e.offsetY)); });
