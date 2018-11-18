@@ -1,3 +1,4 @@
+var container = document.getElementById('div-main');
 var image = document.getElementById('img-main');
 var music = document.getElementById('audio-music');
 
@@ -49,36 +50,19 @@ function tick() {
     image.src = animations[currentAnimation][currentFrame].src;
 }
 
-var swipeTimer = Date.now();
-var swipeStartPosition = Point(0, 0);
-
-image.addEventListener('dragstart', function(e) { e.preventDefault(); });
-
-loadAnimationSets();
-image.src = animations['idle'][0].src;
-
-setInterval(tick, 75);
-
-// TODO: fix this heaping pile of garbage
-document.addEventListener('mousedown', function(e) {
-    if(!run) {
-        run = true;
-        music.play();
-        return;
-    }
-
+function actionDown(position) {
     swipeTimer = Date.now();
-    swipeStartPosition = Point(e.offsetX, e.offsetY);
+    swipeStartPosition = position;
 
     if(currentAnimation === 'idle') {
         currentAnimation = 'beat';
         currentFrame = 0;
     }
-});
+}
 
-document.addEventListener('mouseup', function(e) {
+function actionUp(position) {
     var timeDelta = Date.now() - swipeTimer;
-    var positionDelta = Point(e.offsetX - swipeStartPosition.x, e.offsetY - swipeStartPosition.y);
+    var positionDelta = Point(position.x - swipeStartPosition.x, position.y - swipeStartPosition.y);
     var velocity = Point(positionDelta.x / timeDelta, positionDelta.y / timeDelta);
 
     if(currentAnimation === 'beat') {
@@ -95,4 +79,54 @@ document.addEventListener('mouseup', function(e) {
             currentFrame = 0;
         }
     }
+}
+
+var swipeTimer = Date.now();
+var swipeStartPosition = Point(0, 0);
+
+image.addEventListener('dragstart', function(e) { e.preventDefault(); });
+
+loadAnimationSets();
+image.src = animations[currentAnimation][currentFrame].src;
+
+setInterval(tick, 75);
+
+function absorbEvent(e) {
+    e = e || window.event;
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    e.cancelBubble = true;
+    e.returnValue = false;
+    return false;
+}
+
+image.addEventListener('contextmenu', absorbEvent);
+
+image.addEventListener('touchstart', function(e) {
+    if(!run) {
+        run = true;
+        music.play();
+        return;
+    }
+
+    actionDown(Point(e.changedTouches[0].pageX, e.changedTouches[0].pageY));
+    absorbEvent(e);
 });
+
+image.addEventListener('touchend', function(e) {
+    actionUp(Point(e.changedTouches[0].pageX, e.changedTouches[0].pageY));
+    absorbEvent(e);
+});
+
+image.addEventListener('mousedown', function(e) {
+    if(!run) {
+        run = true;
+        music.play();
+        return;
+    }
+
+    actionDown(Point(e.offsetX, e.offsetY));
+});
+
+image.addEventListener('mouseup', function(e) { actionUp(Point(e.offsetX, e.offsetY)); });
