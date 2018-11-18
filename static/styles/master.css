@@ -1,3 +1,7 @@
+.container {
+    display: block;
+}
+
 .disable-drag {
     pointer-events: none;
     user-drag: none;
@@ -7,4 +11,6 @@
     -webkit-user-drag: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+
+    -webkit-touch-callout: none;
 }
