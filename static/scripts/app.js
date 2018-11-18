@@ -1,5 +1,7 @@
 var image = document.getElementById('img-main');
+var music = document.getElementById('audio-music');
 
+var run = false;
 var animations = {};
 var currentAnimation = 'idle';
 var currentFrame = 0;
@@ -28,6 +30,8 @@ function loadAnimationSets() {
 }
 
 function tick() {
+    if(!run) return;
+
     if(++currentFrame >= animations[currentAnimation].length) {
         switch(currentAnimation) {
             case 'stop':
@@ -45,16 +49,24 @@ function tick() {
     image.src = animations[currentAnimation][currentFrame].src;
 }
 
+var swipeTimer = Date.now();
+var swipeStartPosition = Point(0, 0);
+
 image.addEventListener('dragstart', function(e) { e.preventDefault(); });
 
 loadAnimationSets();
-setInterval(tick, 75);
+image.src = animations['idle'][0].src;
 
-var swipeTimer;
-var swipeStartPosition;
+setInterval(tick, 75);
 
 // TODO: fix this heaping pile of garbage
 document.addEventListener('mousedown', function(e) {
+    if(!run) {
+        run = true;
+        music.play();
+        return;
+    }
+
     swipeTimer = Date.now();
     swipeStartPosition = Point(e.offsetX, e.offsetY);
 
