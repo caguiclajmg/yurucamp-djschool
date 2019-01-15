@@ -1,6 +1,7 @@
 const overlay = document.getElementById('screen-overlay');
 const image = document.getElementById('img-main');
 const music = document.getElementById('audio-music');
+const overlayText = document.getElementById('overlay-text');
 
 var run = false;
 var animations = {};
@@ -103,6 +104,8 @@ function absorbEvent(e) {
 }
 
 window.addEventListener('load', function() {
+    overlayText.innerHTML = "Tap to start!";
+
     overlay.addEventListener('click', function() {
         overlay.style.display = 'none';
         run = true;
