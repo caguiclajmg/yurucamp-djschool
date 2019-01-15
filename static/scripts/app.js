@@ -102,14 +102,14 @@ function absorbEvent(e) {
     return false;
 }
 
-overlay.addEventListener('click', function() {
-    overlay.style.display = 'none';
-    run = true;
+window.addEventListener('load', function() {
+    overlay.addEventListener('click', function() {
+        overlay.style.display = 'none';
+        run = true;
+    });
 });
 
 image.addEventListener('contextmenu', absorbEvent);
-
-//image.addEventListener('click', function(e) { if(!run) run = true; });
 
 image.addEventListener('touchstart', function(e) {
     actionDown(Point(e.changedTouches[0].pageX, e.changedTouches[0].pageY));
