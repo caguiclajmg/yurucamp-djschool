@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=ZCOOL+KuaiLe');
+
 body {
     margin: 0;
     padding: 0;
@@ -16,6 +18,56 @@ body {
     height: 100%;
 
     object-fit: contain;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+}
+
+.overlay {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.5);
+
+    cursor: default;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.overlay-image {
+    display: inline-block;
+
+    margin: auto auto 0;
+}
+
+.overlay-image > img {
+    display: inline;
+}
+
+.overlay-text {
+    color: rgba(255, 255, 255, 1);
+
+    text-align: center;
+
+    font-family: 'ZCOOL KuaiLe', 'sans-serif';
+    font-size: 2em;
+
+    margin: auto auto;
+
+    text-shadow:
+        3px 3px 0 #000,
+        -3px -3px 0 #000,
+        3px -3px 0 #000,
+        -3px 3px 0 #000,
+        3px 3px 0 #000;
 }
 
 .disable-drag {

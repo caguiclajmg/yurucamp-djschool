@@ -18,7 +18,15 @@
         <link rel="stylesheet" type="text/css" href="static/styles/master.css">
     </head>
     <body>
-        <img id="img-main" class="disable-drag">
+        <div id="root">
+            <div id="screen-overlay" class="overlay">
+                <div class="overlay-image" src="static/images/logo.png">
+                    <img src="static/images/logo.png" />
+                </div>
+                <span class="overlay-text">Tap to start!</span>
+            </div>
+            <img id="img-main" class="disable-drag">
+        </div>
 
         <audio id="audio-music" loop>
             <source src="static/sounds/music.ogg" type="audio/ogg">

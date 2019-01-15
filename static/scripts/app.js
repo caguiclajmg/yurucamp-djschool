@@ -1,5 +1,6 @@
-var image = document.getElementById('img-main');
-var music = document.getElementById('audio-music');
+const overlay = document.getElementById('screen-overlay');
+const image = document.getElementById('img-main');
+const music = document.getElementById('audio-music');
 
 var run = false;
 var animations = {};
@@ -101,9 +102,14 @@ function absorbEvent(e) {
     return false;
 }
 
+overlay.addEventListener('click', function() {
+    overlay.style.display = 'none';
+    run = true;
+});
+
 image.addEventListener('contextmenu', absorbEvent);
 
-image.addEventListener('click', function(e) { if(!run) run = true; });
+//image.addEventListener('click', function(e) { if(!run) run = true; });
 
 image.addEventListener('touchstart', function(e) {
     actionDown(Point(e.changedTouches[0].pageX, e.changedTouches[0].pageY));
