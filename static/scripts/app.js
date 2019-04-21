@@ -105,6 +105,7 @@ function absorbEvent(e) {
 
 window.addEventListener('load', function() {
     overlayText.innerHTML = "Tap to start!";
+    overlayText.classList.add('pulse');
 
     overlay.addEventListener('click', function() {
         overlay.style.display = 'none';
