@@ -13,6 +13,11 @@ body {
     overflow: hidden;
 }
 
+#root {
+    background-color: #fff;
+    /*background-image: linear-gradient(185.1deg, #81dae1 54.8%, #e88840 54.8%);*/
+}
+
 #img-main {
     width: 100%;
     height: 100%;
