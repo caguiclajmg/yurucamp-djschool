@@ -27,7 +27,7 @@ const actions = [
     }
 ];
 
-let score = 50;
+let score = 0;
 let run = false;
 let animations = {};
 let currentAnimation = 'idle';
@@ -43,7 +43,6 @@ scoreText.addEventListener('transitionend', () => {
     scoreText.classList.remove('pulse-good');
     scoreText.classList.remove('pulse-great');
     void scoreText.offsetWidth;
-    console.log('clearing');
 });
 
 function loadAnimationSet(name, count) {
@@ -108,8 +107,6 @@ function gameTick() {
 }
 
 function actionEvent(animation) {
-    console.log(`hoi ${animation}`);
-
     const currentTime = music.currentTime;
     const targetActions = activeActions.filter(action => Math.abs(currentTime - action.time) <= 0.5);
 
