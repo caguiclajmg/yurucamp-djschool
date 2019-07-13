@@ -3,19 +3,19 @@ const image = document.getElementById('img-main');
 const music = document.getElementById('audio-music');
 const overlayText = document.getElementById('overlay-text');
 
-var run = false;
-var animations = {};
-var currentAnimation = 'idle';
-var currentFrame = 0;
+let run = false;
+let animations = {};
+let currentAnimation = 'idle';
+let currentFrame = 0;
 
 function Point(x, y) {
     return {x: x, y: y};
 }
 
 function loadAnimationSet(name, count) {
-    var frames = new Array(count);
+    let frames = new Array(count);
 
-    for(var i = 0; i < count; ++i) {
+    for(let i = 0; i < count; ++i) {
         frames[i] = new Image();
         frames[i].src = 'static/images/' + name + '/' + i + '.png';
     }
@@ -63,9 +63,9 @@ function actionDown(position) {
 }
 
 function actionUp(position) {
-    var timeDelta = Date.now() - swipeTimer;
-    var positionDelta = Point(position.x - swipeStartPosition.x, position.y - swipeStartPosition.y);
-    var velocity = Point(positionDelta.x / timeDelta, positionDelta.y / timeDelta);
+    let timeDelta = Date.now() - swipeTimer;
+    let positionDelta = Point(position.x - swipeStartPosition.x, position.y - swipeStartPosition.y);
+    let velocity = Point(positionDelta.x / timeDelta, positionDelta.y / timeDelta);
 
     if(currentAnimation === 'beat') {
         currentAnimation = 'idle';
@@ -83,8 +83,8 @@ function actionUp(position) {
     }
 }
 
-var swipeTimer = Date.now();
-var swipeStartPosition = Point(0, 0);
+let swipeTimer = Date.now();
+let swipeStartPosition = Point(0, 0);
 
 image.addEventListener('dragstart', function(e) { e.preventDefault(); });
 
