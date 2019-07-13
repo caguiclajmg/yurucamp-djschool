@@ -18,8 +18,14 @@ body {
     /*background-image: linear-gradient(185.1deg, #81dae1 54.8%, #e88840 54.8%);*/
 }
 
+#viewport {
+    position: relative;
+    margin: auto;
+    height: 100%;
+    display: inline-block;
+}
+
 #img-main {
-    width: 100%;
     height: 100%;
 
     object-fit: contain;
@@ -28,6 +34,8 @@ body {
 #root {
     width: 100%;
     height: 100%;
+
+    text-align: center;
 }
 
 .overlay {
@@ -45,6 +53,31 @@ body {
 
     display: flex;
     flex-direction: column;
+}
+
+#screen-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+
+#score-text {
+    position: absolute;
+    left: 0.3em;
+    top: 0.3em;
+
+    color: rgba(255, 255, 255, 1);
+
+    font-size: 1.1em;
+    font-family: 'ZCOOL KuaiLe', 'sans-serif';
+
+    text-shadow:
+        1px 1px 0 #000,
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
 }
 
 .overlay-image {
@@ -91,6 +124,60 @@ body {
     animation-name: pulse;
     animation-duration: 1s;
     animation-iteration-count: infinite;
+}
+
+.pulse-miss {
+    animation-name: pulse-miss;
+    animation-duration: 0.25s;
+}
+
+@keyframes pulse-miss {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.4);
+        color: red;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.pulse-good {
+    animation-name: pulse-good;
+    animation-duration: 0.25s;
+}
+
+@keyframes pulse-good {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.4);
+        color: yellow;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.pulse-great {
+    animation-name: pulse-great;
+    animation-duration: 0.25s;
+}
+
+@keyframes pulse-great {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.4);
+        color: green;
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 @keyframes pulse {

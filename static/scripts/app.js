@@ -2,15 +2,49 @@ const overlay = document.getElementById('screen-overlay');
 const image = document.getElementById('img-main');
 const music = document.getElementById('audio-music');
 const overlayText = document.getElementById('overlay-text');
+const scoreText = document.getElementById('score-text');
 
+const actions = [
+    {
+        id: 1,
+        time: 2.506,
+        action: "stop"
+    },
+    {
+        id: 2,
+        time: 11.750,
+        action: "dab"
+    },
+    {
+        id: 3,
+        time: 16.275,
+        action: "stop"
+    },
+    {
+        id: 4,
+        time: 18.481,
+        action: "dab"
+    }
+];
+
+let score = 50;
 let run = false;
 let animations = {};
 let currentAnimation = 'idle';
 let currentFrame = 0;
+let activeActions = actions;
 
 function Point(x, y) {
     return {x: x, y: y};
 }
+
+scoreText.addEventListener('transitionend', () => {
+    scoreText.classList.remove('pulse-miss');
+    scoreText.classList.remove('pulse-good');
+    scoreText.classList.remove('pulse-great');
+    void scoreText.offsetWidth;
+    console.log('clearing');
+});
 
 function loadAnimationSet(name, count) {
     let frames = new Array(count);
@@ -52,6 +86,53 @@ function tick() {
     image.src = animations[currentAnimation][currentFrame].src;
 }
 
+function pulseScore(type) {
+    scoreText.classList.remove(type);
+    void scoreText.offsetWidth;
+    scoreText.classList.add(type);
+}
+
+function gameTick() {
+    if(!run) return;
+
+    const currentTime = music.currentTime;
+    const expiredActions = activeActions.filter(action => (currentTime - action.time) > 0.5);
+    expiredActions.forEach(expiredAction => {
+        activeActions = activeActions.filter(action => action.id !== expiredAction.id);
+        score -= 25;
+
+        pulseScore('pulse-miss');
+
+        scoreText.textContent = `Score: ${score}`;
+    });
+}
+
+function actionEvent(animation) {
+    console.log(`hoi ${animation}`);
+
+    const currentTime = music.currentTime;
+    const targetActions = activeActions.filter(action => Math.abs(currentTime - action.time) <= 0.5);
+
+    targetActions.forEach(targetAction => {
+        if(targetAction.action === animation) {            
+            activeActions = activeActions.filter(action => action.id !== targetAction.id);
+
+            const diff = Math.abs(targetAction.time - currentTime);
+            switch(true) {
+                case (diff < 0.25):
+                    score += 50;
+                    pulseScore('pulse-great');
+
+                default:
+                    score += 25;
+                    pulseScore('pulse-good');
+            }
+
+            scoreText.textContent = `Score: ${score}`;
+        }
+    });
+}
+
 function actionDown(position) {
     swipeTimer = Date.now();
     swipeStartPosition = position;
@@ -75,10 +156,14 @@ function actionUp(position) {
     if(velocity.x < -0.5 && velocity.y -0.5) {
         currentAnimation = 'dab';
         currentFrame = 0;
+
+        actionEvent('dab');
     } else if(velocity.x > 0.5 && velocity.y > 0.5) {
         if(currentAnimation !== 'stop_idle') {
             currentAnimation = 'stop';
             currentFrame = 0;
+
+            actionEvent('stop');
         }
     }
 }
@@ -92,6 +177,7 @@ loadAnimationSets();
 image.src = animations[currentAnimation][currentFrame].src;
 
 setInterval(tick, 75);
+setInterval(gameTick, 25);
 
 function absorbEvent(e) {
     e = e || window.event;
@@ -125,3 +211,5 @@ image.addEventListener('touchend', function(e) {
 
 image.addEventListener('mousedown', function(e) { actionDown(Point(e.offsetX, e.offsetY)); });
 image.addEventListener('mouseup', function(e) { actionUp(Point(e.offsetX, e.offsetY)); });
+
+scoreText.textContent = `Score: ${score}`;
