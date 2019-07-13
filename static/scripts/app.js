@@ -119,7 +119,8 @@ function actionEvent(animation) {
                 case (diff < 0.25):
                     score += 50;
                     pulseScore('pulse-great');
-
+                    break;
+                    
                 default:
                     score += 25;
                     pulseScore('pulse-good');
