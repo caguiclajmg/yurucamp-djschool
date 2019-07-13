@@ -86,7 +86,9 @@ function tick() {
 }
 
 function pulseScore(type) {
-    scoreText.classList.remove(type);
+    scoreText.classList.remove('pulse-miss');
+    scoreText.classList.remove('pulse-good');
+    scoreText.classList.remove('pulse-great');
     void scoreText.offsetWidth;
     scoreText.classList.add(type);
 }
@@ -120,7 +122,7 @@ function actionEvent(animation) {
                     score += 50;
                     pulseScore('pulse-great');
                     break;
-                    
+
                 default:
                     score += 25;
                     pulseScore('pulse-good');
